@@ -1,0 +1,13 @@
+citHeader("To cite 'GWASToolbox' in publications, use:")
+
+citEntry(entry = "Misc",
+  title        = "GWASToolbox:  Comprehensive Collection of Tools and Methods for Genome-Wide
+    Association Studies (GWAS)",
+  author       = personList(as.person("Jemay Salomon")), # only the maintainer here
+  url          = "",
+
+  textVersion  =
+  paste("Salomon, J. (2024).  Comprehensive Collection of Tools and Methods for Genome-Wide
+    Association Studies (GWAS).",
+        "URL ")
+)
