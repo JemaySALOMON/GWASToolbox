@@ -21,7 +21,7 @@
 ##' @return A ggplot object of the Manhattan plot.
 ##' @import ggplot2 dplyr ggrepel
 ##'
-##' @author Jemay SALOMON
+##' @author Jemay Salomon
 ##' @examples
 ##' # Example usage
 ##' manhattanPlot(X = my_data, CHR = "chr", BP = "bp", Pval = "pval", SNP = "snp", 
