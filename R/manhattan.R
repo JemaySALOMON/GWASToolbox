@@ -26,7 +26,7 @@
 ##' # Example usage
 ##' manhattanPlot(X = my_data, CHR = "chr", BP = "bp", Pval = "pval", SNP = "snp", 
 ##'                bonf = TRUE, fdr.bh = TRUE, thresh = 0.05, 
-##'                userwideline = NULL, show.labels = c("rs123", "rs456"))
+##'                userwideline = NULL, show.labels = c("snp001", "snp002"))
 ##' 
 ##' @export
 manhattanPlot<-function(X, CHR = NULL, BP, Pval, SNP, bonf = TRUE, 
@@ -38,12 +38,12 @@ manhattanPlot<-function(X, CHR = NULL, BP, Pval, SNP, bonf = TRUE,
   packageCheck("ggplot2")
   packageCheck("dplyr")
   
+  
   # Check inputs for existence and type
   stopifnot(
     BP %in% names(X),
     Pval %in% names(X),
     SNP %in% names(X),
-    CHR %in%names(X),
     is.numeric(X[[BP]]),
     is.numeric(X[[Pval]]),
     is.numeric(thresh),
@@ -55,8 +55,10 @@ manhattanPlot<-function(X, CHR = NULL, BP, Pval, SNP, bonf = TRUE,
   SNP <-X[[SNP]]
   P <- X[[Pval]]
   
+  
   if (!is.null(CHR)) {
-    stopifnot(CHR %in% names(X), is.numeric(X[[CHR]]))
+    stopifnot(CHR %in% names(X),
+              is.numeric(X[[CHR]]))
   }
   
   if (!is.null(chrLabs)) {
@@ -74,7 +76,6 @@ manhattanPlot<-function(X, CHR = NULL, BP, Pval, SNP, bonf = TRUE,
   
   # Determine which column to use for chromosomes
   chromosome_col <- if (!is.null(chrLabs)) chrLabs else CHR
-  
   if (!chromosome_col %in% names(X)) {
     stop(paste("The column", chromosome_col, "is not found in the data frame."))
   }
@@ -149,21 +150,26 @@ manhattanPlot<-function(X, CHR = NULL, BP, Pval, SNP, bonf = TRUE,
   
   # Highlight significant SNPs
   if (is.null(show.labels)) {
-    if (!is.null(fdr.bh) && is.null(bonf)) {
+    if (!is.null(fdr.bh) && is.null(bonf) && is.null(userwideline)) {
       x <- x %>%
         mutate(
           is_highlight = ifelse(-log10(P) > -log10(fdr.bh), "yes", "no")
         )
-    } else if (is.null(fdr.bh) && !is.null(bonf)) {
+    } else if (is.null(fdr.bh) && !is.null(bonf) && is.null(userwideline)) {
       x <- x %>%
         mutate(
           is_highlight = ifelse(-log10(P) > -log10(bonf), "yes", "no")
         )
-    } else if (!is.null(fdr.bh) && !is.null(bonf)) {
+    } else if (is.null(fdr.bh) && is.null(bonf) && !is.null(userwideline)) {
+      x <- x %>%
+        mutate(
+          is_highlight = ifelse(-log10(P) > userwideline, "yes", "no")
+        )
+    }else if (!is.null(fdr.bh) && !is.null(bonf) && !is.null(userwideline)) {
       x <- x %>%
         mutate(
           is_highlight = ifelse(
-            -log10(P) > -log10(bonf) | -log10(P) > -log10(fdr.bh), 
+            -log10(P) > -log10(bonf) | -log10(P) > -log10(fdr.bh) | userwideline, 
             "yes", 
             "no"
           )
@@ -233,5 +239,4 @@ manhattanPlot<-function(X, CHR = NULL, BP, Pval, SNP, bonf = TRUE,
   
   print(p)
 }
-
 
