@@ -1,0 +1,21 @@
+Package: GWASToolbox
+Title: Comprehensive Collection of Tools and Methods for Genome-Wide
+    Association Studies (GWAS)
+Version: 0.1.0
+Authors@R: 
+    person("Jemay", "Salomon", , "jemay.salomon@inrae.fr", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-4454-7916"))
+Description: GWASToolbox is a comprehensive R package that consolidates a
+    wide array of tools and methods for Genome-Wide Association Studies
+    (GWAS). Designed to streamline and enhance GWAS analysis, this package
+    provides users with a unified interface to access, apply, and combine
+    various functions from existing R packages, making it an essential
+    resource for researchers in the field of genomics.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    eagle,
+    mlmm,
+    MM4LMM
